@@ -1,0 +1,19 @@
+{
+  "name": "spring.js",
+  "version": "0.0.1",
+  "description": "a Spring like framework for Node.js",
+  "main": "index.js",
+  "directories": {
+    "example": "example"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "glob": "^7.1.1",
+    "log4js": "^1.1.1",
+    "reflect-metadata": "^0.1.10"
+  }
+}
