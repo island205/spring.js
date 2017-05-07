@@ -7,7 +7,8 @@
     "example": "example"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha -r ts-node/register test/**/*.ts",
+    "debug": "node --inspect-brk --nolazy node_modules/mocha/bin/_mocha -r ts-node/register --colors /Users/island205/github/spring.js/test/**/*.spec.ts*"
   },
   "author": "",
   "license": "ISC",
@@ -15,5 +16,11 @@
     "glob": "^7.1.1",
     "log4js": "^1.1.1",
     "reflect-metadata": "^0.1.10"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.3.0",
+    "ts-node": "^2.1.2",
+    "typescript": "^2.3.2"
   }
 }

@@ -3,6 +3,12 @@
 @route @get @post
 @autowired
 
+## test
+
+```bash
+$node node_modules/.bin/mocha -r ts-node/register test/**/*.spec.ts
+```
+
 
 ## Reference
 

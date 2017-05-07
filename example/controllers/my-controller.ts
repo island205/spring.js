@@ -16,3 +16,5 @@ class MyController {
     return new ModelAndView('my/list', listData)
   }
 }
+
+export default MyController
