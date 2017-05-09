@@ -2,7 +2,7 @@ import classUtil from './class-util'
 
 class BeanHelper {
   beanSet: Map<ObjectConstructor, Object>
-  constructor() {
+  createBeanSet() {
     this.beanSet = new Map()
     let beanClassSet = classUtil.getBeanClassSet()
     for (let klass of Array.from(beanClassSet)) {

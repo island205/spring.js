@@ -1,7 +1,14 @@
 # Spring.js
 
-@route @get @post
-@autowired
+@controller
+@action
+@service
+@inject
+@param
+@query
+@body
+
+## auto match params name and type
 
 ## test
 
@@ -16,3 +23,4 @@ $node node_modules/.bin/mocha -r ts-node/register test/**/*.spec.ts
 - https://www.gitbook.com/book/zhongsp/typescript-handbook
 - https://my.oschina.net/huangyong/blog/158380
 - https://segmentfault.com/a/1190000008910348
+- https://rbuckton.github.io/reflect-metadata/
