@@ -3,9 +3,11 @@ import action from '../../src/decorators/action'
 import inject from '../../src/decorators/inject'
 
 import ModelAndView from '../../src/model-and-view'
-import express from 'express'
+import * as express from 'express'
 import MyService from '../services/my-service'
-import param from '../../src/decorators/param'
+import query from '../../src/decorators/query'
+
+debugger
 
 @controller('/my')
 class MyController {
@@ -13,13 +15,13 @@ class MyController {
   myService: MyService;
   @action('get:/list')
   list(
-    @param name: string,
+    @query name: string,
     req: express.Request,
     res: express.Response,
     next: express.NextFunction
   ) {
     let listData = this.myService.getList()
-    return new ModelAndView('my/list', listData)
+    res.send(name)
   }
 }
 

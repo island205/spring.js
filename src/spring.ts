@@ -56,11 +56,11 @@ class Spring {
     controllerInstance: Object,
     method: string
   ): Array<any> {
+    debugger
     let args = []
-    const paramTypes = Reflect.getMetadata('design:paramtypes', controllerInstance, method)
-    const bodyParams = Reflect.getMetadata(bodiesdMetadataKey, controllerInstance, method)
-    const queryParams = Reflect.getMetadata(queriesdMetadataKey, controllerInstance, method)
-    const paramParams = Reflect.getMetadata(paramsdMetadataKey, controllerInstance, method)
+    const bodyParams = Reflect.getMetadata(bodiesdMetadataKey, controllerClass.prototype, method) || []
+    const queryParams = Reflect.getMetadata(queriesdMetadataKey, controllerClass.prototype, method) || []
+    const paramParams = Reflect.getMetadata(paramsdMetadataKey, controllerClass.prototype, method) || []
     for (let bodyParam of bodyParams) {
       args[bodyParam.index] = req.body[bodyParam.name]
     }
@@ -70,17 +70,12 @@ class Spring {
     for (let paramParam of paramParams) {
       args[paramParam.index] = req.query[paramParam.name]
     }
-    for(let index = 0; index < paramParams.length; index++) {
-      if (paramParams[index].prototype == express.request) {
-        args[index] = req
-      } else if (paramParams[index].prototype == express.response) {
-        args[index] = res
-      }
-    }
+    args.push(req, res, next)
     return args
   }
   listen(port: number, hostname?: string, backlog?: number, callback?: Function) {
     this.app.listen.apply(this.app, arguments)
+    logger.debug(`spring.js server is start up on port ${port} now!`)
   }
 }
 

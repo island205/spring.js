@@ -8,6 +8,7 @@ interface query {
 }
 
 export default function query(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+  debugger
   let queryParameters: query[] = Reflect.getOwnMetadata(queriesdMetadataKey, target, propertyKey) || [];
   queryParameters.push({
     name: propertyKey,
