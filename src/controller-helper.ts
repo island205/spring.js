@@ -9,7 +9,7 @@ interface Request {
 
 interface Handler {
   controllerClass: ObjectConstructor,
-  method: Function
+  method: string
 }
 
 export default class ControllerHelper {
@@ -20,7 +20,7 @@ export default class ControllerHelper {
     for (let controllerClass of Array.from(controllerSet)) {
       let controllerPath = Reflect.getMetadata(controllerMetadataKey, controllerClass)
       for(let method in controllerClass.prototype) {
-        if (typeof method == 'function') {
+        if (typeof controllerClass.prototype[method] == 'function') {
           let path = Reflect.getMetadata(actionMetadataKey, controllerClass.prototype, method)
           if (path) {
             let [requestMethod, requestPath] = path.split(':')

@@ -19,10 +19,12 @@ class ClassUtils {
         let Kclass = require(classPath)
         Kclass = Kclass.default || Kclass
         this.classSet.add(<ObjectConstructor>Kclass)
+        logger.debug(`load class ${classPath} success`)
       } catch (e) {
         logger.warn(`load class from ${classPath} error`, e)
       }
     }
+    logger.debug(`load class done, load ${this.classSet.size} classes`)
   }
   
   getClassSet(): Set<ObjectConstructor> {

@@ -7,12 +7,16 @@
     "example": "example"
   },
   "scripts": {
+    "start": "ts-node server.ts",
     "test": "mocha -r ts-node/register test/**/*.ts",
-    "debug": "node --inspect-brk --nolazy node_modules/mocha/bin/_mocha -r ts-node/register --colors /Users/island205/github/spring.js/test/**/*.spec.ts*"
+    "debug-test": "node --inspect-brk --nolazy node_modules/mocha/bin/_mocha -r ts-node/register --colors /Users/island205/github/spring.js/test/**/*.spec.ts*",
+    "debug": "node -r ts-node/register --inspect-brk  server.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
     "glob": "^7.1.1",
     "log4js": "^1.1.1",
     "reflect-metadata": "^0.1.10"
