@@ -9,9 +9,12 @@ describe('spring.js', function () {
     request(app.app)
       .post('/my/articles')
       .send({'name': 'spring.js'})
-      .expect('spring.js', function (err) {
-        done(err)
-      })
+      .expect('spring.js', done)
+  })
+  it('should support @param decorator', function (done) {
+    request(app.app)
+      .get('/my/articles/1')
+      .expect('1', done)
   })
 })
 

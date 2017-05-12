@@ -7,12 +7,13 @@ import * as express from 'express'
 import MyService from '../services/my-service'
 import query from '../../src/decorators/query'
 import body from '../../src/decorators/body'
+import param from '../../src/decorators/param'
 
 @controller('/my')
 class MyController {
   @inject
   myService: MyService;
-  @action('get:/list')
+  @action('get::/list')
   list(
     @query name: string,
     req: express.Request,
@@ -22,13 +23,21 @@ class MyController {
     let listData = this.myService.getList()
     res.send(name)
   }
-  @action('post:/articles')
+  @action('post::/articles')
   createArticle(
     @body name: string,
     req: express.Request,
     res: express.Response
   ) {
     res.send(name)
+  }
+  @action('get::/articles/:id')
+  getArticleById(
+    @param id: string,
+    req,
+    res: express.Response
+  ) {
+    res.send(id)
   }
 }
 

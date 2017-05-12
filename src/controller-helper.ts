@@ -23,7 +23,7 @@ export default class ControllerHelper {
         if (typeof controllerClass.prototype[method] == 'function') {
           let path = Reflect.getMetadata(actionMetadataKey, controllerClass.prototype, method)
           if (path) {
-            let [requestMethod, requestPath] = path.split(':')
+            let [requestMethod, requestPath] = path.split('::')
             requestPath = controllerPath + requestPath
             this.actionMap.set({requestPath, requestMethod}, {controllerClass, method})
           }

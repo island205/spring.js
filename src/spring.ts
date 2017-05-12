@@ -42,6 +42,7 @@ class Spring {
       const {requestPath, requestMethod} = request
 
       this.app[requestMethod](requestPath, (req, res, next) => {
+        logger.debug(`access ${req.url} ${requestMethod}::${requestPath} to ${controllerInstance.constructor.name}.${method}`)
         let args = this.buildParams(req, res, next, controllerClass, controllerInstance, method)
         controllerInstance[method].apply(controllerInstance, args)
       })
@@ -78,7 +79,7 @@ class Spring {
       args[queryParam.index] = req.query[queryParam.name]
     }
     for (let paramParam of paramParams) {
-      args[paramParam.index] = req.query[paramParam.name]
+      args[paramParam.index] = req.params[paramParam.name]
     }
     args.push(req, res, next)
     return args
