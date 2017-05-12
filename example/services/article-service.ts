@@ -4,10 +4,10 @@ import ModelAndView from '../../src/model-and-view'
 const { service } = Spring
 
 @service
-class MyService {
+class ArticleService {
   getList() {
     return Promise.resolve([])
   }
 }
 
-export default MyService
+export default ArticleService

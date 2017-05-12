@@ -1,15 +1,15 @@
 import Spring from '../../src'
 import ModelAndView from '../../src/model-and-view'
-import MyService from '../services/my-service'
+import ArticleService from '../services/article-service'
 
 const { controller, action, inject, body, query, param } = Spring
 
-@controller('/my')
-class MyController {
+@controller('/articles')
+class ArticleController {
   @inject
-  myService: MyService;
-  @action('get::/list')
-  list(
+  myService: ArticleService;
+  @action('get::/')
+  getArticleList(
     @query name: string,
     req,
     res,
@@ -18,7 +18,7 @@ class MyController {
     let listData = this.myService.getList()
     res.send(name)
   }
-  @action('post::/articles')
+  @action('post::/')
   createArticle(
     @body name: string,
     req,
@@ -26,7 +26,7 @@ class MyController {
   ) {
     res.send(name)
   }
-  @action('get::/articles/:id')
+  @action('get::/:id')
   getArticleById(
     @param id: string,
     req,
@@ -36,4 +36,4 @@ class MyController {
   }
 }
 
-export default MyController
+export default ArticleController
