@@ -1,10 +1,14 @@
 import * as bodyParser from 'body-parser'
 import * as log4js from 'log4js'
-
+import * as ejs from 'ejs'
+import * as path from 'path'
 import classUtil from './class-util'
 import ControllerHelper from './controller-helper'
 import beanHelper from './bean-helper'
 import iocHelper from './ioc-helper'
+
+import ModelAndView from './model-and-view'
+import Model from './model'
 
 import { bodiesdMetadataKey } from './decorators/body'
 import { queriesdMetadataKey } from './decorators/query'
@@ -14,10 +18,18 @@ import * as express from 'express'
 
 const logger = log4js.getLogger('spring.js:spring.ts')
 
+interface SpringOptions {
+    springPath: string
+  }
+
 class Spring {
   app: express.Application
   controllerHelper: ControllerHelper
+  options: SpringOptions
   constructor(springPath: string) {
+    this.options = {
+      springPath
+    }
     logger.debug(`Spring is start, load from ${springPath}`)
     // load class
     classUtil.loadClass(springPath)
@@ -32,10 +44,20 @@ class Spring {
 
     this.handleError()
   }
+  createApp(): express.Application {
+    const app = express()
+      // view engine setup
+    app.engine('ejs', ejs.renderFile)
+    app.set('views', path.join(this.options.springPath, './views'))
+    app.set('view engine', 'ejs')
+    app.set('jsonp callback name', 'jsoncallback')
+    app.set('x-powered-by', false)
+    app.use(bodyParser.urlencoded({ extended: false }))
+    app.use(bodyParser.json())
+    return app
+  }
   bindToExpress() {
-    this.app = express()
-    this.app.use(bodyParser.urlencoded({ extended: false }))
-    this.app.use(bodyParser.json())
+    this.app = this.createApp()
     for (let [request, handler] of Array.from(this.controllerHelper.getActionMap().entries())) {
       const {controllerClass, method} = handler
       const controllerInstance = beanHelper.getBean(controllerClass)
@@ -43,13 +65,31 @@ class Spring {
 
       this.app[requestMethod](requestPath, (req, res, next) => {
         logger.debug(`access ${req.url} ${requestMethod}::${requestPath} to ${controllerInstance.constructor.name}.${method}`)
-        let args = this.buildParams(req, res, next, controllerClass, controllerInstance, method)
-        controllerInstance[method].apply(controllerInstance, args)
-      })
+        const args = this.buildParams(req, res, next, controllerClass, controllerInstance, method)
+        let result = controllerInstance[method].apply(controllerInstance, args)
+        debugger
+        if (result instanceof ModelAndView) {
+          // render view
+          this.renderModelAndView(result, res)
+        } else if (result instanceof Model) {
+          // render data
+          this.renderModel(result, res)
+        } else if (typeof result  === 'string') {
+          result = new ModelAndView(result)
+          this.renderModelAndView(result, res)
+        }
+    })
 
       logger.debug(`bind request map: ${requestMethod}:${requestPath} to ${controllerInstance.constructor.name}.${method}`)
     }
     return this
+  }
+  renderModelAndView(modelAndView: ModelAndView, res: express.Response) {
+    res.render(modelAndView.viewPath, modelAndView.modelData)
+  }
+  renderModel(model: Model, res: express.Response) {
+    logger.debug('renderModel', model)
+    res.jsonp(model.modelData)
   }
   handleError() {
     this.app.use(function(err, req, res, next) {

@@ -1,6 +1,9 @@
 class ModelAndView {
-  constructor(viewPath:string, modelData:any) {
-    
+  viewPath: string
+  modelData: any
+  constructor(viewPath: string, modelData?: any) {
+    this.viewPath = viewPath
+    this.modelData  = modelData
   }
 }
 
