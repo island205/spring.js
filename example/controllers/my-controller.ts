@@ -1,13 +1,8 @@
-import controller from '../../src/decorators/controller'
-import action from '../../src/decorators/action'
-import inject from '../../src/decorators/inject'
-
+import Spring from '../../src'
 import ModelAndView from '../../src/model-and-view'
-import * as express from 'express'
 import MyService from '../services/my-service'
-import query from '../../src/decorators/query'
-import body from '../../src/decorators/body'
-import param from '../../src/decorators/param'
+
+const { controller, action, inject, body, query, param } = Spring
 
 @controller('/my')
 class MyController {
@@ -16,9 +11,9 @@ class MyController {
   @action('get::/list')
   list(
     @query name: string,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
+    req,
+    res,
+    next
   ) {
     let listData = this.myService.getList()
     res.send(name)
@@ -26,8 +21,8 @@ class MyController {
   @action('post::/articles')
   createArticle(
     @body name: string,
-    req: express.Request,
-    res: express.Response
+    req,
+    res,
   ) {
     res.send(name)
   }
@@ -35,7 +30,7 @@ class MyController {
   getArticleById(
     @param id: string,
     req,
-    res: express.Response
+    res,
   ) {
     res.send(id)
   }

@@ -1,4 +1,7 @@
-import service from '../../src/decorators/service'
+import Spring from '../../src'
+import ModelAndView from '../../src/model-and-view'
+
+const { service } = Spring
 
 @service
 class MyService {
