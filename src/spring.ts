@@ -29,6 +29,8 @@ class Spring {
     this.controllerHelper = new ControllerHelper()
     // bind to framework
     this.bindToExpress()
+
+    this.handleError()
   }
   bindToExpress() {
     this.app = express()
@@ -48,15 +50,23 @@ class Spring {
     }
     return this
   }
+  handleError() {
+    this.app.use(function(err, req, res, next) {
+      if (err) {
+        logger.debug(err)
+      } else {
+        next()
+      }
+    })
+  }
   buildParams(
-    req: express.Request & bodyParser.ParsedAsUrlencoded,
+    req: express.Request,
     res: express.Response,
     next: express.NextFunction,
     controllerClass: ObjectConstructor,
     controllerInstance: Object,
     method: string
   ): Array<any> {
-    debugger
     let args = []
     const bodyParams = Reflect.getMetadata(bodiesdMetadataKey, controllerClass.prototype, method) || []
     const queryParams = Reflect.getMetadata(queriesdMetadataKey, controllerClass.prototype, method) || []

@@ -1,4 +1,5 @@
 import "reflect-metadata"
+import { getParamsNames } from './param-names'
 
 export const bodiesdMetadataKey = Symbol("bodies")
 
@@ -8,9 +9,10 @@ interface body {
 }
 
 export default function body(target: Object, propertyKey: string | symbol, parameterIndex: number) {
+  let paramsNames = getParamsNames(target, propertyKey)
   let bodyParameters: body[] = Reflect.getOwnMetadata(bodiesdMetadataKey, target, propertyKey) || [];
   bodyParameters.push({
-    name: propertyKey,
+    name: paramsNames[parameterIndex],
     index: parameterIndex
   });
   Reflect.defineMetadata(bodiesdMetadataKey, bodyParameters, target, propertyKey);

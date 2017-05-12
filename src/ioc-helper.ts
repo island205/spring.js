@@ -6,7 +6,6 @@ const logger = log4js.getLogger('spring.js:bean-helper')
 
 class IocHelper {
   inject() {
-    debugger
     let beanMap = beanHelper.getBeanMap()
     for (let [klass, instance] of Array.from(beanMap.entries())) {
       let injectFields = Reflect.getMetadata(injectsMetadataKey, klass.prototype);

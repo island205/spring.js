@@ -6,8 +6,7 @@ import ModelAndView from '../../src/model-and-view'
 import * as express from 'express'
 import MyService from '../services/my-service'
 import query from '../../src/decorators/query'
-
-debugger
+import body from '../../src/decorators/body'
 
 @controller('/my')
 class MyController {
@@ -21,6 +20,14 @@ class MyController {
     next: express.NextFunction
   ) {
     let listData = this.myService.getList()
+    res.send(name)
+  }
+  @action('post:/articles')
+  createArticle(
+    @body name: string,
+    req: express.Request,
+    res: express.Response
+  ) {
     res.send(name)
   }
 }
