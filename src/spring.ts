@@ -78,8 +78,7 @@ class Spring {
           result = new ModelAndView(result)
           this.renderModelAndView(result, res)
         }
-    })
-
+      })
       logger.debug(`bind request map: ${requestMethod}:${requestPath} to ${controllerInstance.constructor.name}.${method}`)
     }
     return this

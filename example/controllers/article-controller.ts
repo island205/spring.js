@@ -3,7 +3,9 @@ import ModelAndView from '../../src/model-and-view'
 import Model from '../../src/model'
 import ArticleService from '../services/article-service'
 
-const { controller, action, inject, body, query, param } = Spring
+const { 
+  controller, action, inject, body, query, param,
+} = Spring
 
 @controller('/articles')
 class ArticleController {
